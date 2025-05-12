@@ -24,4 +24,4 @@ contracts/test/Elf.sol
 .env
 
 # Extra files
-./contracts/src/risc0-ethereum/*
+./lib/*
