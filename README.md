@@ -1,3 +1,33 @@
+# Base Batch
+
+
+
+
+### Deploy the smart contracts
+- 1/ Deploy the `EnergyAggregator` contract on [`Ethereum Sepolia`](https://sepolia.etherscan.io/) testnet:
+```bash
+sh ./contracts/scripts/runningScript_Deploy.sh
+```
+
+<br>
+
+### Running the (backend) App
+- 1/ Add the input data for the ZK guest program (`main()` in the `./guests/smart-meter/src/main.rs`):
+```bash
+```
+
+<br>
+
+- 2/ Run the `./apps/src/main.rs`:
+```bash
+sh ./apps/runningApp_main.sh
+```
+
+
+<br>
+
+<hr>
+
 # Boundless Foundry Template
 
 This template serves as a starting point for developing an application with verifiable compute provided by [Boundless][boundless-homepage].
