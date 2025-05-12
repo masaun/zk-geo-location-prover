@@ -110,11 +110,12 @@ async fn main() -> Result<()> {
 
     // Encode the input and upload it to the storage provider.
     tracing::info!("Number to publish: {}", args.number);
-    let input_builder = InputBuilder::new().write_slice(&U256::from(args.number).abi_encode());
+    let input_builder = InputBuilder::new().write_slice(&U256::from(args.number).abi_encode()); /// @dev - Create an input data (= "number") to be stored into the ZK guest program.
     tracing::info!("input builder: {:?}", input_builder);
 
+    /// @dev - Build the input data for the ZK guest program.
     let guest_env = input_builder.clone().build_env()?;
-    let guest_env_bytes = guest_env.encode()?;
+    let guest_env_bytes = guest_env.encode()?;  /// @dev - Encode the input data to bytes (= Called an "input_bytes" in ZK guest program).
 
     // Dry run the ELF with the input to get the journal and cycle count.
     // This can be useful to estimate the cost of the proving request.
