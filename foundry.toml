@@ -2,7 +2,7 @@
 src = "contracts/src"
 out = "contracts/out"
 libs = ["lib"]
-#libs = ["lib", "contracts/src"]
+#libs = ["lib", "contracts/src"]  # Using this - only when installing dependencies. After that, this should be switched to the "libs = ['lib']" above.
 script = "contracts/scripts"
 test = "contracts/test"
 ffi = true
