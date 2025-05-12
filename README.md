@@ -1,3 +1,17 @@
+# Base Batch
+
+
+### Deploy the smart contracts
+- 1/ Deploy the `EnergyAggregator` contract on [`Ethereum Sepolia`](https://sepolia.etherscan.io/) testnet:
+```bash
+sh ./contracts/scripts/runningScript_Deploy.sh
+```
+
+
+<br>
+
+<hr>
+
 # Boundless Foundry Template
 
 This template serves as a starting point for developing an application with verifiable compute provided by [Boundless][boundless-homepage].
