@@ -22,6 +22,9 @@ fn main() {
     // Read the input data for this application.
     let mut input_bytes = Vec::<u8>::new();
     env::stdin().read_to_end(&mut input_bytes).unwrap();
+
+    let mut input_geo_location_bytes = Vec::<u8>::new();
+    env::stdin().read_to_end(&mut input_geo_location_bytes).unwrap();
     
     // Decode and parse the input
     let number = <U256>::abi_decode(&input_bytes, true).unwrap();
