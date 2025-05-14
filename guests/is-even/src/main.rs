@@ -14,7 +14,7 @@
 
 use std::io::Read;
 
-use alloy_primitives::U256;
+use alloy_primitives::{U256, Uint};
 use alloy_sol_types::SolValue;
 use risc0_zkvm::guest::env;
 
@@ -34,10 +34,12 @@ fn main() {
     // In this case, asserting that the provided number is even.
     assert!(!number.bit(0), "number is not even");
 
-    /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
+    // @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
     // Define acceptable and unacceptable geo-locations
-    let input_geo_location = (10, 20);       // Example input coordinates (x, y)
-    let unacceptable_geo_location = (0, 0);  // Example unacceptable coordinates (x, y)
+    let input_geo_location = (geo_location_x, geo_location_y);       // Example input coordinates (x, y)
+    let unacceptable_geo_location_x = Uint::from(15 as u64);  // Example acceptable coordinates (x, y)
+    let unacceptable_geo_location_y = Uint::from(10 as u64);  // Example acceptable coordinates (x, y)
+    let unacceptable_geo_location = (unacceptable_geo_location_x, unacceptable_geo_location_y);  // Example unacceptable coordinates (x, y)
     assert!(input_geo_location != unacceptable_geo_location, "input_geo_location must be outside of unacceptable geo_location");
 
     // Commit the journal that will be received by the application contract.
