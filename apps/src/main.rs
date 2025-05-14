@@ -109,8 +109,14 @@ async fn main() -> Result<()> {
     tracing::info!("Uploaded image to {}", image_url);
 
     // Encode the input and upload it to the storage provider.
+    /// @dev - Create an input data (= "number") to be stored into the ZK guest program.
     tracing::info!("Number to publish: {}", args.number);
-    let input_builder = InputBuilder::new().write_slice(&U256::from(args.number).abi_encode()); /// @dev - Create an input data (= "number") to be stored into the ZK guest program.
+    let input_bytes = U256::from(args.number).abi_encode();
+    let input_input_geo_location_x_bytes = U256::from(10).abi_encode(); /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
+    let input_input_geo_location_y_bytes = U256::from(20).abi_encode(); /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
+    let input_builder = InputBuilder::new().write_slice(&input_bytes)
+                                                         .write_slice(&input_input_geo_location_x_bytes)
+                                                         .write_slice(&input_input_geo_location_y_bytes);
     tracing::info!("input builder: {:?}", input_builder);
 
     /// @dev - Build the input data for the ZK guest program.
