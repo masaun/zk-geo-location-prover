@@ -22,16 +22,13 @@ fn main() {
     // Read the input data for this application.
     let mut input_bytes = Vec::<u8>::new();
     env::stdin().read_to_end(&mut input_bytes).unwrap();
-
-    let mut input_geo_location_x_bytes = Vec::<u8>::new();
-    let mut input_geo_location_y_bytes = Vec::<u8>::new();
-    env::stdin().read_to_end(&mut input_geo_location_x_bytes).unwrap();
-    env::stdin().read_to_end(&mut input_geo_location_y_bytes).unwrap();
     
     // Decode and parse the input
-    let number = <U256>::abi_decode(&input_bytes, true).unwrap();
-    let geo_location_x = <U256>::abi_decode(&input_geo_location_x_bytes, true).unwrap();
-    let geo_location_y = <U256>::abi_decode(&input_geo_location_y_bytes, true).unwrap();
+    //let number = <U256>::abi_decode(&input_bytes, true).unwrap();
+    let (number, geo_location_x, geo_location_y): (U256, U256, U256) = <(U256, U256, U256)>::abi_decode(&input_bytes, true).unwrap();
+    println!("In the guest program - 'number': {:?}", number);
+    println!("In the guest program - 'geo_location_x': {:?}", geo_location_x);
+    println!("In the guest program - 'geo_location_y': {:?}", geo_location_y);
 
     // Run the computation.
     // In this case, asserting that the provided number is even.

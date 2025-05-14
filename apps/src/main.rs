@@ -110,13 +110,13 @@ async fn main() -> Result<()> {
 
     // Encode the input and upload it to the storage provider.
     /// @dev - Create an input data (= "number") to be stored into the ZK guest program.
+    let geo_location_x = 10; /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
+    let geo_location_y = 20; /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
     tracing::info!("Number to publish: {}", args.number);
-    let input_bytes = U256::from(args.number).abi_encode();
-    let input_input_geo_location_x_bytes = U256::from(10).abi_encode(); /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
-    let input_input_geo_location_y_bytes = U256::from(20).abi_encode(); /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
-    let input_builder = InputBuilder::new().write_slice(&input_bytes)
-                                                         .write_slice(&input_input_geo_location_x_bytes)
-                                                         .write_slice(&input_input_geo_location_y_bytes);
+    tracing::info!("geo_location_x to publish: {}", geo_location_x);
+    tracing::info!("geo_location_y to publish: {}", geo_location_y);
+    let input_bytes = (U256::from(args.number), U256::from(geo_location_x), U256::from(geo_location_y)).abi_encode();
+    let input_builder = InputBuilder::new().write_slice(&input_bytes);
     tracing::info!("input builder: {:?}", input_builder);
 
     /// @dev - Build the input data for the ZK guest program.
