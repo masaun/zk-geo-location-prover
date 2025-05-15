@@ -25,13 +25,12 @@ fn main() {
     
     // Decode and parse the input
     //let number = <U256>::abi_decode(&input_bytes, true).unwrap();
-    let (geo_location_x, geo_location_y): ( U256, U256) = <(U256, U256)>::abi_decode(&input_bytes, true).unwrap();
+    let (geo_location_x, geo_location_y): (U256, U256) = <(U256, U256)>::abi_decode(&input_bytes, true).unwrap();
     println!("In the guest program - 'geo_location_x': {:?}", geo_location_x);
     println!("In the guest program - 'geo_location_y': {:?}", geo_location_y);
 
     // @dev - Constraint, which check whether or not a given input geo-location is outside of the acceptable geo-location.
-    let input_geo_location = (geo_location_x, geo_location_y);  // A given input coordinates (x, y)
-    let is_outside_of_acceptable_location: bool = is_geo_location_acceptable(input_geo_location);
+    let is_outside_of_acceptable_location: bool = is_geo_location_acceptable(geo_location_x, geo_location_y); // A given input coordinates (x, y)
     assert!(is_outside_of_acceptable_location, "A given input geo location must be outside of unacceptable geo location");
     println!("In the guest program - 'is_outside_of_acceptable_location': {:?}", is_outside_of_acceptable_location);
 
@@ -44,17 +43,18 @@ fn main() {
 
 
 /**
- * @notice - Check if the geo-location is acceptable.
+ * @notice - Check whether or not a given input (geo location) is acceptable
  */
-fn is_geo_location_acceptable(input_geo_location: (U256, U256)) -> bool {
-    let unacceptable_geo_location_x = Uint::from(15 as u64);  // The acceptable x of coordinates (x, y)
-    let unacceptable_geo_location_y = Uint::from(10 as u64);  // The acceptable y of coordinates (x, y)
-    let unacceptable_geo_location = (unacceptable_geo_location_x, unacceptable_geo_location_y);  // Example unacceptable coordinates (x, y)
+fn is_geo_location_acceptable(input_geo_location_x: U256, input_geo_location_y: U256) -> bool {
+    // @dev - Check whether or not a given input (geo location) is acceptable
+    // @dev - If both condition for respective coordinates (x, y) are satisfied, then the geo-location can be judged as the inside of the unacceptable geo-location.
+    if U256::from(50 as u32) <= input_geo_location_x && input_geo_location_x <= U256::from(100 as u32) {     // 50 <= input_geo_location_x <= 100
+        if U256::from(50 as u32) <= input_geo_location_y && input_geo_location_y <= U256::from(50 as u32) {  // 50 <= input_geo_location_y <= 100
+            return false;  // The geo-location is inside of the unacceptable geo-location
+        }
 
-    // Check if the geo-location is acceptable
-    if input_geo_location != unacceptable_geo_location {
         return true;  // The geo-location is outside of the unacceptable geo-location
     } else {
-        return false;  // The geo-location is inside of the unacceptable geo-location
+        return true;  // The geo-location is outside of the unacceptable geo-location
     }
 }
