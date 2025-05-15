@@ -46,15 +46,15 @@ fn main() {
  * @notice - Check whether or not a given input (geo location) is acceptable
  */
 fn is_geo_location_acceptable(input_geo_location_x: U256, input_geo_location_y: U256) -> bool {
+    let mut is_geo_location_acceptable: bool = true; // Default value is true (acceptable geo-location)
+    
     // @dev - Check whether or not a given input (geo location) is acceptable
     // @dev - If both condition for respective coordinates (x, y) are satisfied, then the geo-location can be judged as the inside of the unacceptable geo-location.
     if U256::from(50 as u32) <= input_geo_location_x && input_geo_location_x <= U256::from(100 as u32) {     // 50 <= input_geo_location_x <= 100
         if U256::from(50 as u32) <= input_geo_location_y && input_geo_location_y <= U256::from(50 as u32) {  // 50 <= input_geo_location_y <= 100
-            return false;  // The geo-location is inside of the unacceptable geo-location
+            is_geo_location_acceptable = false;  // The geo-location is inside of the unacceptable geo-location
         }
-
-        return true;  // The geo-location is outside of the unacceptable geo-location
-    } else {
-        return true;  // The geo-location is outside of the unacceptable geo-location
     }
+
+    is_geo_location_acceptable
 }
