@@ -108,13 +108,22 @@ async fn main() -> Result<()> {
     let image_url = boundless_client.upload_image(IS_EVEN_ELF).await?;
     tracing::info!("Uploaded image to {}", image_url);
 
-    // Encode the input and upload it to the storage provider.
+    // Log the number to be published.
     tracing::info!("Number to publish: {}", args.number);
-    let input_builder = InputBuilder::new().write_slice(&U256::from(args.number).abi_encode());
+
+    // Encode the input and upload it to the storage provider.
+    /// @dev - Create an input data (= "number") to be stored into the ZK guest program.
+    let geo_location_x = 10; /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
+    let geo_location_y = 20; /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
+    tracing::info!("geo_location_x to publish: {}", geo_location_x);
+    tracing::info!("geo_location_y to publish: {}", geo_location_y);
+    let input_bytes = (U256::from(geo_location_x), U256::from(geo_location_y)).abi_encode();
+    let input_builder = InputBuilder::new().write_slice(&input_bytes);
     tracing::info!("input builder: {:?}", input_builder);
 
+    /// @dev - Build the input data for the ZK guest program.
     let guest_env = input_builder.clone().build_env()?;
-    let guest_env_bytes = guest_env.encode()?;
+    let guest_env_bytes = guest_env.encode()?;  /// @dev - Encode the input data to bytes (= Called an "input_bytes" in ZK guest program).
 
     // Dry run the ELF with the input to get the journal and cycle count.
     // This can be useful to estimate the cost of the proving request.
