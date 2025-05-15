@@ -43,6 +43,10 @@ fn main() {
     // Commit the journal that will be received by the application contract.
     // Journal is encoded using Solidity ABI for easy decoding in the app contract.
     env::commit_slice(number.abi_encode().as_slice());
+
+    // @dev - Commit the result of the geo-location check as a "journal" (= pubicInput). 
+    // @dev - This enable a DePIN device to prove whether or not the DePIN device is existing outside of the acceptable geo-location without revealing the exact location (coordinate (x, y)).
+    env::commit_slice(is_outside_of_acceptable_location.abi_encode().as_slice());
 }
 
 
