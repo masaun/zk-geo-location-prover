@@ -1,12 +1,10 @@
 # Base Batch
 
 
-
-
-### Deploy the smart contracts
-- 1/ Deploy the `EnergyAggregator` contract on [`Ethereum Sepolia`](https://sepolia.etherscan.io/) testnet:
+### Running the test of the guest program
+- 1/ Run the ZK guest program (`main()` in the `./guests/tests/runningGuestProgram_location-prover-test.sh`):
 ```bash
-sh ./contracts/scripts/runningScript_Deploy.sh
+sh ./guests/tests/runningGuestProgram_location-prover-test.sh
 ```
 
 <br>
@@ -22,6 +20,14 @@ sh ./contracts/scripts/runningScript_Deploy.sh
 ```bash
 sh ./apps/runningApp_main.sh
 ```
+
+
+<br>
+
+### Deploy the smart contracts
+- 1/ Deploy the `xxx` contract on [`BASE`]() testnet:
+```bash
+sh ./contracts/scripts/runningScript_Deploy.sh
 
 
 <br>

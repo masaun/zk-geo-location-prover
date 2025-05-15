@@ -17,32 +17,40 @@ use alloy_sol_types::SolValue;
 use guests::IS_EVEN_ELF;
 use risc0_zkvm::{default_executor, ExecutorEnv};
 
-#[test]
-fn proves_even_number() {
-    let even_number = U256::from(1304);
+#[test] // [Result]: Successful to pass.
+fn proves_geo_location_is_outside_of_unacceptable_geo_location() {
+    // @dev - A given input geo-location (x, y) is outside of the unacceptable geo-location (x, y).
+    let geo_location_x = 10; /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
+    let geo_location_y = 20; /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
+    let input_bytes = (U256::from(geo_location_x), U256::from(geo_location_y)).abi_encode();
 
     let env = ExecutorEnv::builder()
-        .write_slice(&even_number.abi_encode())
+        .write_slice(&input_bytes)
         .build()
         .unwrap();
 
     // NOTE: Use the executor to run tests without proving.
     let session_info = default_executor().execute(env, IS_EVEN_ELF).unwrap();
 
-    let x = U256::abi_decode(&session_info.journal.bytes, true).unwrap();
-    assert_eq!(x, even_number);
+    // @dev - Check whether or not a journal (publicOutputs) is same with a given input.
+    let is_outside_of_acceptable_location = bool::abi_decode(&session_info.journal.bytes, true).unwrap();
+    println!("In the test of the guest program - 'is_outside_of_acceptable_location': {:?}", is_outside_of_acceptable_location);
+    assert_eq!(is_outside_of_acceptable_location, true);
 }
 
 #[test]
-#[should_panic(expected = "number is not even")]
-fn rejects_odd_number() {
-    let odd_number = U256::from(75);
+#[should_panic(expected = "A given input geo location must be outside of unacceptable geo location")]
+fn rejects_geo_location() {
+    // @dev - A given input geo-location (x, y) is outside of the unacceptable geo-location (x, y).
+    let geo_location_x = 15; /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
+    let geo_location_y = 10; /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
+    let input_bytes = (U256::from(geo_location_x), U256::from(geo_location_y)).abi_encode();
 
     let env = ExecutorEnv::builder()
-        .write_slice(&odd_number.abi_encode())
+        .write_slice(&input_bytes)
         .build()
         .unwrap();
 
     // NOTE: Use the executor to run tests without proving.
-    default_executor().execute(env, IS_EVEN_ELF).unwrap();
+    let session_info = default_executor().execute(env, IS_EVEN_ELF).unwrap();
 }
