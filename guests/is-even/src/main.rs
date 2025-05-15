@@ -37,7 +37,8 @@ fn main() {
     // @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
     // Define acceptable and unacceptable geo-locations
     let input_geo_location = (geo_location_x, geo_location_y);  // A given input coordinates (x, y)
-    assert!(is_geo_location_acceptable(input_geo_location), "input_geo_location must be outside of unacceptable geo_location");
+    let is_outside_of_acceptable_location: bool = is_geo_location_acceptable(input_geo_location);
+    assert!(is_outside_of_acceptable_location, "A given input geo location must be outside of unacceptable geo_location");
 
     // Commit the journal that will be received by the application contract.
     // Journal is encoded using Solidity ABI for easy decoding in the app contract.
@@ -49,8 +50,8 @@ fn main() {
  * @notice - Check if the geo-location is acceptable.
  */
 fn is_geo_location_acceptable(input_geo_location: (U256, U256)) -> bool {
-    let unacceptable_geo_location_x = Uint::from(15 as u64);  // Example acceptable x of coordinates (x, y)
-    let unacceptable_geo_location_y = Uint::from(10 as u64);  // Example acceptable y of coordinates (x, y)
+    let unacceptable_geo_location_x = Uint::from(15 as u64);  // The acceptable x of coordinates (x, y)
+    let unacceptable_geo_location_y = Uint::from(10 as u64);  // The acceptable y of coordinates (x, y)
     let unacceptable_geo_location = (unacceptable_geo_location_x, unacceptable_geo_location_y);  // Example unacceptable coordinates (x, y)
 
     // Check if the geo-location is acceptable
