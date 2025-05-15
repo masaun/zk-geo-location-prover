@@ -23,8 +23,6 @@ fn proves_geo_location_is_outside_of_unacceptable_geo_location() {
     let geo_location_x = 10; /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
     let geo_location_y = 20; /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
     let input_bytes = (U256::from(geo_location_x), U256::from(geo_location_y)).abi_encode();
-    // let input_builder = InputBuilder::new().write_slice(&input_bytes);
-    // tracing::info!("input builder: {:?}", input_builder);
 
     let env = ExecutorEnv::builder()
         .write_slice(&input_bytes)
@@ -41,15 +39,18 @@ fn proves_geo_location_is_outside_of_unacceptable_geo_location() {
 }
 
 #[test]
-#[should_panic(expected = "number is not even")]
-fn rejects_odd_number() {
-    let odd_number = U256::from(75);
+#[should_panic(expected = "A given input geo location must be outside of unacceptable geo location")]
+fn rejects_geo_location() {
+    // @dev - A given input geo-location (x, y) is outside of the unacceptable geo-location (x, y).
+    let geo_location_x = 15; /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
+    let geo_location_y = 10; /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
+    let input_bytes = (U256::from(geo_location_x), U256::from(geo_location_y)).abi_encode();
 
     let env = ExecutorEnv::builder()
-        .write_slice(&odd_number.abi_encode())
+        .write_slice(&input_bytes)
         .build()
         .unwrap();
 
     // NOTE: Use the executor to run tests without proving.
-    default_executor().execute(env, IS_EVEN_ELF).unwrap();
+    let session_info = default_executor().execute(env, IS_EVEN_ELF).unwrap();
 }

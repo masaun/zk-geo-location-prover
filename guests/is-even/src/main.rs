@@ -32,7 +32,7 @@ fn main() {
     // @dev - Constraint, which check whether or not a given input geo-location is outside of the acceptable geo-location.
     let input_geo_location = (geo_location_x, geo_location_y);  // A given input coordinates (x, y)
     let is_outside_of_acceptable_location: bool = is_geo_location_acceptable(input_geo_location);
-    assert!(is_outside_of_acceptable_location, "A given input geo location must be outside of unacceptable geo_location");
+    assert!(is_outside_of_acceptable_location, "A given input geo location must be outside of unacceptable geo location");
     println!("In the guest program - 'is_outside_of_acceptable_location': {:?}", is_outside_of_acceptable_location);
 
     // Commit the journal that will be received by the application contract.
