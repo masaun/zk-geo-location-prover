@@ -108,14 +108,16 @@ async fn main() -> Result<()> {
     let image_url = boundless_client.upload_image(IS_EVEN_ELF).await?;
     tracing::info!("Uploaded image to {}", image_url);
 
+    // Log the number to be published.
+    tracing::info!("Number to publish: {}", args.number);
+
     // Encode the input and upload it to the storage provider.
     /// @dev - Create an input data (= "number") to be stored into the ZK guest program.
     let geo_location_x = 10; /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
     let geo_location_y = 20; /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
-    tracing::info!("Number to publish: {}", args.number);
     tracing::info!("geo_location_x to publish: {}", geo_location_x);
     tracing::info!("geo_location_y to publish: {}", geo_location_y);
-    let input_bytes = (U256::from(args.number), U256::from(geo_location_x), U256::from(geo_location_y)).abi_encode();
+    let input_bytes = (U256::from(geo_location_x), U256::from(geo_location_y)).abi_encode();
     let input_builder = InputBuilder::new().write_slice(&input_bytes);
     tracing::info!("input builder: {:?}", input_builder);
 

@@ -25,28 +25,20 @@ fn main() {
     
     // Decode and parse the input
     //let number = <U256>::abi_decode(&input_bytes, true).unwrap();
-    let (number, geo_location_x, geo_location_y): (U256, U256, U256) = <(U256, U256, U256)>::abi_decode(&input_bytes, true).unwrap();
-    println!("In the guest program - 'number': {:?}", number);
+    let (geo_location_x, geo_location_y): ( U256, U256) = <(U256, U256)>::abi_decode(&input_bytes, true).unwrap();
     println!("In the guest program - 'geo_location_x': {:?}", geo_location_x);
     println!("In the guest program - 'geo_location_y': {:?}", geo_location_y);
 
-    // Run the computation.
-    // In this case, asserting that the provided number is even.
-    assert!(!number.bit(0), "number is not even");
-
-    // @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
-    // Define acceptable and unacceptable geo-locations
+    // @dev - Constraint, which check whether or not a given input geo-location is outside of the acceptable geo-location.
     let input_geo_location = (geo_location_x, geo_location_y);  // A given input coordinates (x, y)
     let is_outside_of_acceptable_location: bool = is_geo_location_acceptable(input_geo_location);
     assert!(is_outside_of_acceptable_location, "A given input geo location must be outside of unacceptable geo_location");
 
     // Commit the journal that will be received by the application contract.
     // Journal is encoded using Solidity ABI for easy decoding in the app contract.
-    env::commit_slice(number.abi_encode().as_slice());
-
     // @dev - Commit the result of the geo-location check as a "journal" (= pubicInput). 
     // @dev - This enable a DePIN device to prove whether or not the DePIN device is existing outside of the acceptable geo-location without revealing the exact location (coordinate (x, y)).
-    env::commit_slice(is_outside_of_acceptable_location.abi_encode().as_slice());
+    env::commit_slice(is_outside_of_acceptable_location.abi_encode().as_slice()); // True or False
 }
 
 
