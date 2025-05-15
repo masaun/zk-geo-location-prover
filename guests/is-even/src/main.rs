@@ -40,9 +40,18 @@ fn main() {
     let unacceptable_geo_location_x = Uint::from(15 as u64);  // Example acceptable coordinates (x, y)
     let unacceptable_geo_location_y = Uint::from(10 as u64);  // Example acceptable coordinates (x, y)
     let unacceptable_geo_location = (unacceptable_geo_location_x, unacceptable_geo_location_y);  // Example unacceptable coordinates (x, y)
-    assert!(input_geo_location != unacceptable_geo_location, "input_geo_location must be outside of unacceptable geo_location");
+    assert!(is_geo_location_acceptable(input_geo_location, unacceptable_geo_location), "input_geo_location must be outside of unacceptable geo_location");
 
     // Commit the journal that will be received by the application contract.
     // Journal is encoded using Solidity ABI for easy decoding in the app contract.
     env::commit_slice(number.abi_encode().as_slice());
+}
+
+
+/**
+ * @notice - Check if the geo-location is acceptable.
+ */
+fn is_geo_location_acceptable(input_geo_location: (U256, U256), unacceptable_geo_location: (U256, U256)) -> bool {
+    // Check if the geo-location is acceptable
+    input_geo_location != unacceptable_geo_location
 }
