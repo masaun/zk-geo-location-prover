@@ -29,9 +29,9 @@ fn main() {
     println!("In the guest program - 'geo_location_x': {:?}", geo_location_x);
     println!("In the guest program - 'geo_location_y': {:?}", geo_location_y);
 
-    // @dev - Constraint, which check whether or not a given input geo-location is outside of the acceptable geo-location.
+    // @dev - Constraint, which check whether or not a given input geo-location is outside of the acceptable geo-location.   
     let is_outside_of_acceptable_location: bool = is_geo_location_acceptable(geo_location_x, geo_location_y); // A given input coordinates (x, y)
-    assert!(is_outside_of_acceptable_location, "A given input geo location must be outside of unacceptable geo location");
+    assert!(is_outside_of_acceptable_location == true, "A given input geo location must be outside of unacceptable geo location");
     println!("In the guest program - 'is_outside_of_acceptable_location': {:?}", is_outside_of_acceptable_location);
 
     // Commit the journal that will be received by the application contract.
@@ -51,7 +51,7 @@ fn is_geo_location_acceptable(input_geo_location_x: U256, input_geo_location_y: 
     // @dev - Check whether or not a given input (geo location) is acceptable
     // @dev - If both condition for respective coordinates (x, y) are satisfied, then the geo-location can be judged as the inside of the unacceptable geo-location.
     if U256::from(50 as u32) <= input_geo_location_x && input_geo_location_x <= U256::from(100 as u32) {     // 50 <= input_geo_location_x <= 100
-        if U256::from(50 as u32) <= input_geo_location_y && input_geo_location_y <= U256::from(50 as u32) {  // 50 <= input_geo_location_y <= 100
+        if U256::from(50 as u32) <= input_geo_location_y && input_geo_location_y <= U256::from(100 as u32) {  // 50 <= input_geo_location_y <= 100
             is_geo_location_acceptable = false;  // The geo-location is inside of the unacceptable geo-location
         }
     }

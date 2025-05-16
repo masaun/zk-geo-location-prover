@@ -42,8 +42,8 @@ fn proves_geo_location_is_outside_of_unacceptable_geo_location() {
 #[should_panic(expected = "A given input geo location must be outside of unacceptable geo location")]
 fn rejects_geo_location() {
     // @dev - A given input geo-location (x, y) is outside of the unacceptable geo-location (x, y).
-    let geo_location_x = 15; /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
-    let geo_location_y = 10; /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
+    let geo_location_x = 60; /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
+    let geo_location_y = 70; /// @dev - Acceptable coordidates (x, y) for the location. This will be used for the constraint.
     let input_bytes = (U256::from(geo_location_x), U256::from(geo_location_y)).abi_encode();
 
     let env = ExecutorEnv::builder()
