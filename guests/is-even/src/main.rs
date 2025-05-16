@@ -12,6 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+mod geo_location_checker;
+mod sanctioned_locations_list;
+use geo_location_checker::{is_geo_location_acceptable};
+
 use std::io::Read;
 
 use alloy_primitives::{U256, Uint};
@@ -39,75 +43,4 @@ fn main() {
     // @dev - Commit the result of the geo-location check as a "journal" (= pubicInput). 
     // @dev - This enable a DePIN device to prove whether or not the DePIN device is existing outside of the acceptable geo-location without revealing the exact location (coordinate (x, y)).
     env::commit_slice(is_outside_of_acceptable_location.abi_encode().as_slice()); // True or False
-}
-
-
-/**
- * @notice - Check whether or not a given geo location (x, y) is outside the geo-location of sanctioned country A, B, and C
- */
-fn is_geo_location_acceptable(input_geo_location_x: U256, input_geo_location_y: U256) -> bool {
-    let mut is_geo_location_acceptable: bool = true; // Default value is true (acceptable geo-location)
-    
-    // @dev - Check whether or not a given geo location (x, y) is outside the geo-location of sanctioned country A, B, and C
-    if is_outside_of_geo_location_of_sanctioned_country_A(input_geo_location_x, input_geo_location_y) == false {
-        is_geo_location_acceptable = false; // The geo-location is inside of the unacceptable geo-location
-    } else if is_outside_of_geo_location_of_sanctioned_country_B(input_geo_location_x, input_geo_location_y) == false {
-        is_geo_location_acceptable = false; // The geo-location is inside of the unacceptable geo-location
-    } else if is_outside_of_geo_location_of_sanctioned_country_C(input_geo_location_x, input_geo_location_y) == false {
-        is_geo_location_acceptable = false; // The geo-location is inside of the unacceptable geo-location
-    }
-
-    is_geo_location_acceptable
-}
-
-
-/**
- * @notice - Check whether or not a given geo location (x, y) is outside the geo-location of sanctioned country A
- */
-fn is_outside_of_geo_location_of_sanctioned_country_A(input_geo_location_x: U256, input_geo_location_y: U256) -> bool {
-    let mut is_outside_of_geo_location_of_sanctioned_country_A: bool = true; // Default value is true (acceptable geo-location)
-    
-    // @dev - Check whether or not a given input (geo location) is acceptable
-    // @dev - If both condition for respective coordinates (x, y) are satisfied, then the geo-location can be judged as the inside of the unacceptable geo-location.
-    if U256::from(60 as u32) <= input_geo_location_x && input_geo_location_x <= U256::from(70 as u32) {     // 50 <= input_geo_location_x <= 100
-        if U256::from(110 as u32) <= input_geo_location_y && input_geo_location_y <= U256::from(120 as u32) {  // 50 <= input_geo_location_y <= 100
-            is_outside_of_geo_location_of_sanctioned_country_A = false;  // The geo-location is inside of the unacceptable geo-location
-        }
-    }
-
-    is_outside_of_geo_location_of_sanctioned_country_A
-}
-
-/**
- * @notice - Check whether or not a given geo location (x, y) is outside the geo-location of sanctioned country B
- */
-fn is_outside_of_geo_location_of_sanctioned_country_B(input_geo_location_x: U256, input_geo_location_y: U256) -> bool {
-    let mut is_outside_of_geo_location_of_sanctioned_country_B: bool = true; // Default value is true (acceptable geo-location)
-    
-    // @dev - Check whether or not a given input (geo location) is acceptable
-    // @dev - If both condition for respective coordinates (x, y) are satisfied, then the geo-location can be judged as the inside of the unacceptable geo-location.
-    if U256::from(70 as u32) <= input_geo_location_x && input_geo_location_x <= U256::from(80 as u32) {     // 50 <= input_geo_location_x <= 100
-        if U256::from(120 as u32) <= input_geo_location_y && input_geo_location_y <= U256::from(130 as u32) {  // 50 <= input_geo_location_y <= 100
-            is_outside_of_geo_location_of_sanctioned_country_B = false;  // The geo-location is inside of the unacceptable geo-location
-        }
-    }
-
-    is_outside_of_geo_location_of_sanctioned_country_B
-}
-
-/**
- * @notice - Check whether or not a given geo location (x, y) is outside the geo-location of sanctioned country C
- */
-fn is_outside_of_geo_location_of_sanctioned_country_C(input_geo_location_x: U256, input_geo_location_y: U256) -> bool {
-    let mut is_outside_of_geo_location_of_sanctioned_country_C: bool = true; // Default value is true (acceptable geo-location)
-    
-    // @dev - Check whether or not a given input (geo location) is acceptable
-    // @dev - If both condition for respective coordinates (x, y) are satisfied, then the geo-location can be judged as the inside of the unacceptable geo-location.
-    if U256::from(50 as u32) <= input_geo_location_x && input_geo_location_x <= U256::from(100 as u32) {     // 50 <= input_geo_location_x <= 100
-        if U256::from(50 as u32) <= input_geo_location_y && input_geo_location_y <= U256::from(100 as u32) {  // 50 <= input_geo_location_y <= 100
-            is_outside_of_geo_location_of_sanctioned_country_C = false;  // The geo-location is inside of the unacceptable geo-location
-        }
-    }
-
-    is_outside_of_geo_location_of_sanctioned_country_C
 }
