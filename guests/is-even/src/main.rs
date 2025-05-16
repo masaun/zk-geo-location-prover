@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-mod sanctioned_location_checker;
-use sanctioned_location_checker::{is_geo_location_acceptable};
+mod geo_location_checker;
+mod sanctioned_locations_list;
+use geo_location_checker::{is_geo_location_acceptable};
 
 use std::io::Read;
 
