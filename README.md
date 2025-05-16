@@ -10,7 +10,7 @@ sh ./guests/tests/runningGuestProgram_location-prover-test.sh
 <br>
 
 ### Running the (backend) App
-- 1/ Add the input data for the ZK guest program (`main()` in the `./guests/smart-meter/src/main.rs`):
+- 1/ Add the input data for the ZK guest program (`main()` in the `./guests/zk-circuit-for-proving-geo-location/src/main.rs`):
 ```bash
 ```
 

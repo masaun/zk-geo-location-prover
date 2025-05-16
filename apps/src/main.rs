@@ -28,7 +28,8 @@ use boundless_market::{
     storage::StorageProviderConfig,
 };
 use clap::Parser;
-use guests::{IS_EVEN_ELF, IS_EVEN_ID};
+use guests::{ZK_CIRCUIT_FOR_PROVING_GEO_LOCATION_ELF, ZK_CIRCUIT_FOR_PROVING_GEO_LOCATION_ID};
+//use guests::{IS_EVEN_ELF, IS_EVEN_ID};
 use risc0_zkvm::{default_executor, sha::Digestible};
 use url::Url;
 
@@ -105,7 +106,8 @@ async fn main() -> Result<()> {
         boundless_client.storage_provider.is_some(),
         "a storage provider is required to upload the zkVM guest ELF"
     );
-    let image_url = boundless_client.upload_image(IS_EVEN_ELF).await?;
+    let image_url = boundless_client.upload_image(ZK_CIRCUIT_FOR_PROVING_GEO_LOCATION_ELF).await?;
+    //let image_url = boundless_client.upload_image(IS_EVEN_ELF).await?;
     tracing::info!("Uploaded image to {}", image_url);
 
     // Log the number to be published.
@@ -130,7 +132,8 @@ async fn main() -> Result<()> {
     // It can also be useful to ensure the guest can be executed correctly and we do not send into
     // the market unprovable proving requests. If you have a different mechanism to get the expected
     // journal and set a price, you can skip this step.
-    let session_info = default_executor().execute(guest_env.try_into().unwrap(), IS_EVEN_ELF)?;
+    let session_info = default_executor().execute(guest_env.try_into().unwrap(), ZK_CIRCUIT_FOR_PROVING_GEO_LOCATION_ELF)?;
+    //let session_info = default_executor().execute(guest_env.try_into().unwrap(), IS_EVEN_ELF)?;
     let mcycles_count = session_info
         .segments
         .iter()
@@ -166,7 +169,8 @@ async fn main() -> Result<()> {
         .with_image_url(image_url.to_string())
         .with_input(request_input)
         .with_requirements(Requirements::new(
-            IS_EVEN_ID,
+            ZK_CIRCUIT_FOR_PROVING_GEO_LOCATION_ID,
+            //IS_EVEN_ID,
             Predicate::digest_match(journal.digest()),
         ))
         .with_offer(
@@ -205,38 +209,48 @@ async fn main() -> Result<()> {
         .await?;
     tracing::info!("Request 0x{request_id:x} fulfilled");
 
-    // Interact with the EvenNumber contract by calling the set function with our number and
-    // the seal (i.e. proof) returned by the market.
-    let even_number = IEvenNumberInstance::new(
-        args.even_number_address,
-        boundless_client.provider().clone(),
-    );
-    let set_number = even_number
-        .set(U256::from(args.number), seal)
-        .from(boundless_client.caller());
 
-    tracing::info!("Broadcasting tx calling EvenNumber set function");
-    let pending_tx = set_number.send().await.context("failed to broadcast tx")?;
-    tracing::info!("Sent tx {}", pending_tx.tx_hash());
-    let tx_hash = pending_tx
-        .with_timeout(Some(TX_TIMEOUT))
-        .watch()
-        .await
-        .context("failed to confirm tx")?;
-    tracing::info!("Tx {:?} confirmed", tx_hash);
 
-    // We query the value stored at the EvenNumber address to check it was set correctly
-    let number = even_number
-        .get()
-        .call()
-        .await
-        .context("failed to get number from contract")?
-        ._0;
-    tracing::info!(
-        "Number for address: {:?} is set to {:?}",
-        boundless_client.caller(),
-        number
-    );
+
+
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// [TODO]: Replace the following smart contract interaction code with the zk-circuit-for-proving-geo-location based smart contract interection code.  ///
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // // Interact with the EvenNumber contract by calling the set function with our number and
+    // // the seal (i.e. proof) returned by the market.
+    // let even_number = IEvenNumberInstance::new(
+    //     args.even_number_address,
+    //     boundless_client.provider().clone(),
+    // );
+    // let set_number = even_number
+    //     .set(U256::from(args.number), seal)
+    //     .from(boundless_client.caller());
+
+    // tracing::info!("Broadcasting tx calling EvenNumber set function");
+    // let pending_tx = set_number.send().await.context("failed to broadcast tx")?;
+    // tracing::info!("Sent tx {}", pending_tx.tx_hash());
+    // let tx_hash = pending_tx
+    //     .with_timeout(Some(TX_TIMEOUT))
+    //     .watch()
+    //     .await
+    //     .context("failed to confirm tx")?;
+    // tracing::info!("Tx {:?} confirmed", tx_hash);
+
+    // // We query the value stored at the EvenNumber address to check it was set correctly
+    // let number = even_number
+    //     .get()
+    //     .call()
+    //     .await
+    //     .context("failed to get number from contract")?
+    //     ._0;
+    // tracing::info!(
+    //     "Number for address: {:?} is set to {:?}",
+    //     boundless_client.caller(),
+    //     number
+    // );
 
     Ok(())
 }
