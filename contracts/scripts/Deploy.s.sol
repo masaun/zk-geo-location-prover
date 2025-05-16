@@ -16,7 +16,7 @@ pragma solidity ^0.8.20;
 
 import {Script, console2} from "forge-std/Script.sol";
 import {IRiscZeroVerifier} from "risc0/IRiscZeroVerifier.sol";
-import {EvenNumber} from "../src/EvenNumber.sol";
+import {GeoLocationProofVerifier} from "../src/GeoLocationProofVerifier.sol";
 
 contract Deploy is Script {
     function run() external {
@@ -26,9 +26,9 @@ contract Deploy is Script {
         vm.startBroadcast(key);
 
         IRiscZeroVerifier verifier = IRiscZeroVerifier(verifierAddress);
-        EvenNumber evenNumber = new EvenNumber(verifier);
-        address evenNumberAddress = address(evenNumber);
-        console2.log("Deployed EvenNumber to", evenNumberAddress);
+        GeoLocationProofVerifier geoLocationProofVerifier = new GeoLocationProofVerifier(verifier);
+        address geoLocationProofVerifierAddress = address(geoLocationProofVerifier);
+        console2.log("Deployed GeoLocationProofVerifier to", geoLocationProofVerifierAddress);
 
         vm.stopBroadcast();
     }

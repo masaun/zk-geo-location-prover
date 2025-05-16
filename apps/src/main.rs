@@ -14,7 +14,8 @@
 
 use std::time::Duration;
 
-use crate::even_number::IEvenNumber::IEvenNumberInstance;
+use crate::geo_location_proof_verifier::IGeoLocationProofVerifier::IGeoLocationProofVerifierInstance;
+//use crate::geo_location_proof_verifier::IGeoLocationProofVerifier::IGeoLocationProofVerifierInstance;
 use alloy::{
     primitives::{utils::parse_ether, Address, U256},
     signers::local::PrivateKeySigner,
@@ -29,17 +30,17 @@ use boundless_market::{
 };
 use clap::Parser;
 use guests::{GEO_LOCATION_PROVER_ELF, GEO_LOCATION_PROVER_ID};
-//use guests::{IS_EVEN_ELF, IS_EVEN_ID};
+//use guests::{GEO_LOCATION_PROVER_ELF, GEO_LOCATION_PROVER_ID};
 use risc0_zkvm::{default_executor, sha::Digestible};
 use url::Url;
 
 /// Timeout for the transaction to be confirmed.
 pub const TX_TIMEOUT: Duration = Duration::from_secs(30);
 
-mod even_number {
+mod geo_location_proof_verifier {
     alloy::sol!(
         #![sol(rpc, all_derives)]
-        "../contracts/src/IEvenNumber.sol"
+        "../contracts/src/IGeoLocationProofVerifier.sol"
     );
 }
 
@@ -47,13 +48,13 @@ mod even_number {
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
 struct Args {
-    /// The number to publish to the EvenNumber contract.
+    /// The number to publish to the GeoLocationProofVerifier contract.
     #[clap(short, long)]
     number: u32,
     /// URL of the Ethereum RPC endpoint.
     #[clap(short, long, env)]
     rpc_url: Url,
-    /// Private key used to interact with the EvenNumber contract.
+    /// Private key used to interact with the GeoLocationProofVerifier contract.
     #[clap(short, long, env)]
     wallet_private_key: PrivateKeySigner,
     /// Submit the request offchain via the provided order stream service url.
@@ -65,9 +66,9 @@ struct Args {
     /// Storage provider to use
     #[clap(flatten)]
     storage_config: Option<StorageProviderConfig>,
-    /// Address of the EvenNumber contract.
+    /// Address of the GeoLocationProofVerifier contract.
     #[clap(short, long, env)]
-    even_number_address: Address,
+    geo_location_proof_verifier_address: Address,
     /// Address of the RiscZeroSetVerifier contract.
     #[clap(short, long, env)]
     set_verifier_address: Address,
@@ -107,7 +108,7 @@ async fn main() -> Result<()> {
         "a storage provider is required to upload the zkVM guest ELF"
     );
     let image_url = boundless_client.upload_image(GEO_LOCATION_PROVER_ELF).await?;
-    //let image_url = boundless_client.upload_image(IS_EVEN_ELF).await?;
+    //let image_url = boundless_client.upload_image(GEO_LOCATION_PROVER_ELF).await?;
     tracing::info!("Uploaded image to {}", image_url);
 
     // Log the number to be published.
@@ -133,7 +134,7 @@ async fn main() -> Result<()> {
     // the market unprovable proving requests. If you have a different mechanism to get the expected
     // journal and set a price, you can skip this step.
     let session_info = default_executor().execute(guest_env.try_into().unwrap(), GEO_LOCATION_PROVER_ELF)?;
-    //let session_info = default_executor().execute(guest_env.try_into().unwrap(), IS_EVEN_ELF)?;
+    //let session_info = default_executor().execute(guest_env.try_into().unwrap(), GEO_LOCATION_PROVER_ELF)?;
     let mcycles_count = session_info
         .segments
         .iter()
@@ -170,7 +171,7 @@ async fn main() -> Result<()> {
         .with_input(request_input)
         .with_requirements(Requirements::new(
             GEO_LOCATION_PROVER_ID,
-            //IS_EVEN_ID,
+            //GEO_LOCATION_PROVER_ID,
             Predicate::digest_match(journal.digest()),
         ))
         .with_offer(
@@ -219,17 +220,17 @@ async fn main() -> Result<()> {
     /// [TODO]: Replace the following smart contract interaction code with the geo-location-prover based smart contract interection code.  ///
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // // Interact with the EvenNumber contract by calling the set function with our number and
+    // // Interact with the GeoLocationProofVerifier contract by calling the set function with our number and
     // // the seal (i.e. proof) returned by the market.
-    // let even_number = IEvenNumberInstance::new(
-    //     args.even_number_address,
+    // let geo_location_proof_verifier = IGeoLocationProofVerifierInstance::new(
+    //     args.geo_location_proof_verifier_address,
     //     boundless_client.provider().clone(),
     // );
-    // let set_number = even_number
+    // let set_number = geo_location_proof_verifier
     //     .set(U256::from(args.number), seal)
     //     .from(boundless_client.caller());
 
-    // tracing::info!("Broadcasting tx calling EvenNumber set function");
+    // tracing::info!("Broadcasting tx calling GeoLocationProofVerifier set function");
     // let pending_tx = set_number.send().await.context("failed to broadcast tx")?;
     // tracing::info!("Sent tx {}", pending_tx.tx_hash());
     // let tx_hash = pending_tx
@@ -239,8 +240,8 @@ async fn main() -> Result<()> {
     //     .context("failed to confirm tx")?;
     // tracing::info!("Tx {:?} confirmed", tx_hash);
 
-    // // We query the value stored at the EvenNumber address to check it was set correctly
-    // let number = even_number
+    // // We query the value stored at the GeoLocationProofVerifier address to check it was set correctly
+    // let number = geo_location_proof_verifier
     //     .get()
     //     .call()
     //     .await

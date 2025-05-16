@@ -14,7 +14,8 @@
 
 pragma solidity ^0.8.20;
 
-interface IEvenNumber {
-    function set(uint256 x, bytes calldata seal) external;
-    function get() external view returns (uint256);
+interface IGeoLocationProofVerifier {
+    function verifyGeoLocationProof(bytes calldata proof, bool isOutsideOfAcceptableLocation) external view returns (bool _isValidProof);
+    // function set(uint256 x, bytes calldata seal) external;
+    // function get() external view returns (uint256);
 }
