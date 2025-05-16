@@ -14,7 +14,7 @@
 
 use alloy_primitives::U256;
 use alloy_sol_types::SolValue;
-use guests::IS_EVEN_ELF;
+use guests::GEO_LOCATION_PROVER_ELF;
 use risc0_zkvm::{default_executor, ExecutorEnv};
 
 #[test] // [Result]: Successful to pass.
@@ -30,7 +30,7 @@ fn proves_geo_location_is_outside_of_unacceptable_geo_location() {
         .unwrap();
 
     // NOTE: Use the executor to run tests without proving.
-    let session_info = default_executor().execute(env, IS_EVEN_ELF).unwrap();
+    let session_info = default_executor().execute(env, GEO_LOCATION_PROVER_ELF).unwrap();
 
     // @dev - Check whether or not a journal (publicOutputs) is same with a given input.
     let is_outside_of_acceptable_location = bool::abi_decode(&session_info.journal.bytes, true).unwrap();
@@ -52,5 +52,5 @@ fn rejects_geo_location() {
         .unwrap();
 
     // NOTE: Use the executor to run tests without proving.
-    let session_info = default_executor().execute(env, IS_EVEN_ELF).unwrap();
+    let session_info = default_executor().execute(env, GEO_LOCATION_PROVER_ELF).unwrap();
 }

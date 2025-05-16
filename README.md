@@ -4,13 +4,13 @@
 ### Running the test of the guest program
 - 1/ Run the ZK guest program (`main()` in the `./guests/tests/runningGuestProgram_location-prover-test.sh`):
 ```bash
-sh ./guests/tests/runningGuestProgram_location-prover-test.sh
+sh ./guests/tests/runningGuestProgramTest_geo-location-prover-test.sh
 ```
 
 <br>
 
 ### Running the (backend) App
-- 1/ Add the input data for the ZK guest program (`main()` in the `./guests/smart-meter/src/main.rs`):
+- 1/ Add the input data for the ZK guest program (`main()` in the `./guests/geo-location-prover/src/main.rs`):
 ```bash
 ```
 
