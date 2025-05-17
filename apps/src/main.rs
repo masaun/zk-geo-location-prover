@@ -50,7 +50,8 @@ mod geo_location_proof_verifier {
 struct Args {
     /// The number to publish to the GeoLocationProofVerifier contract.
     #[clap(short, long)]
-    number: u32,
+    //number: u32,
+    
     /// URL of the Ethereum RPC endpoint.
     #[clap(short, long, env)]
     rpc_url: Url,
@@ -112,7 +113,7 @@ async fn main() -> Result<()> {
     tracing::info!("Uploaded image to {}", image_url);
 
     // Log the number to be published.
-    tracing::info!("Number to publish: {}", args.number);
+    //tracing::info!("Number to publish: {}", args.number);
 
     // Encode the input and upload it to the storage provider.
     /// @dev - Create an input data (= "number") to be stored into the ZK guest program.
