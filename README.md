@@ -13,9 +13,18 @@ This ZK Geo Location Prover protocol can prove and verify whether or not a DePIN
 
 In other words, this protocol can attest a "proof of location" without revealing a DePIN Device's exact locations.
 
+<br>
+
+## Deployed-addresses on [`BASE Sepolia`](https://sepolia.basescan.org) testnet
+
+| Contract Name | Descripttion | Deployed-contract addresses on BASE Sepolia Testnet | Contract Source Code Verified |
+| ------------- | ------------:| ---------------------------------------------------:| -----------------------------:|
+| GeoLocationProofVerifier | This contract allow an energy producer's/consumer's smart meter to create a sell/buy order and match them. | [0xa96B774483f83c39f009e86A8B16f1A21f2570FC](https://sepolia.basescan.org/address/0xa96b774483f83c39f009e86a8b16f1a21f2570fc#code) | [Contract Source Code Verified](https://sepolia.basescan.org/address/0xa96b774483f83c39f009e86a8b16f1a21f2570fc#code) |
 
 
 <br>
+
+## Installtion
 
 ### Run the test of the guest program
 - Run the ZK guest program (`main()` in the `./guests/tests/runningGuestProgram_location-prover-test.sh`):
