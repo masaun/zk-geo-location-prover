@@ -91,7 +91,7 @@ To allow provers to access your zkVM guest binary, it must be uploaded to a publ
 PINATA_JWT="YOUR_PINATA_JWT"
 ```
 
-A [`.env`](./.env) file is provided with the Boundless contract deployment information for Sepolia.
+A `.env` file is provided with the Boundless contract deployment information for Sepolia.
 The example app reads from this `.env` file automatically.
 
 <br>
@@ -105,7 +105,15 @@ sh ./apps/runningApp_main.sh
 <br>
 
 ### Run the test of the smart contract
-- Run the test of the smart contract (`./contracts/test/GeoLocationProofVerifier.t.sol`):
+- 1/ Within the `contracts/test/Elf.sol`, the **path** (`SMART_METER_PATH`) should be fixed like this:
+```solidity
+library Elf {
+    string public constant GEO_LOCATION_PROVER_PATH =
+        "../target/riscv-guest/guests/geo-location-prover/riscv32im-risc0-zkvm-elf/release/geo-location-prover.bin";
+}
+```
+
+- 2/ Run the test of the smart contract (`./contracts/test/GeoLocationProofVerifier.t.sol`):
 ```bash
 sh ./contracts/test/runningTest_GeoLocationProofVerifier.sh
 ```
