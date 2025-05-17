@@ -13,7 +13,7 @@
 
 This is the ZK Geo Location Prover protocol, which solve the provacy-preserving related problem that an exact geo location of a DePIN device can be shared (revealed) among DePIN network (i.e. Helium, XNET).
 
-The ZK Geo Location Prover protocol can prove/generate a **`ZK Proof (Zero-Knowledge Proof) of location` of DePIN device** and verify whether or not a DePIN device is working in legal region without revealing their exact locations (GPS coordinates) - thanks to ZKP (Zero-Knowledge Proof) produced via Boundless-powered by RISC Zero's zkVM.
+The ZK Geo Location Prover protocol can prove/generate a **`ZK Proof (Zero-Knowledge Proof) of location` of DePIN device** and verify whether or not a DePIN device is working in legal region without revealing their exact locations (GPS coordinates) - thanks to thanks to [`Boundless`](https://beboundless.xyz/) powered by [RISC Zero](https://risczero.com/)'s zkVM.
 
 The ZK Geo Location Prover protocol is consist of the two parts:
 - ZK guest program (`./guests/geo-location-prover/main.rs`)
