@@ -13,3 +13,8 @@ ffi = true
 line_length = 120
 tab_width = 4
 quote_style = "double"
+
+
+[rpc_endpoints]
+#sepolia = "${SEPOLIA_RPC}"
+base_testnet = "${BASE_TESTNET_RPC}"
