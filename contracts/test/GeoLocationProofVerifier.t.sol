@@ -20,40 +20,33 @@ import {RiscZeroCheats} from "risc0/test/RiscZeroCheats.sol";
 import {Receipt as RiscZeroReceipt} from "risc0/IRiscZeroVerifier.sol";
 import {RiscZeroMockVerifier} from "risc0/test/RiscZeroMockVerifier.sol";
 import {VerificationFailed} from "risc0/IRiscZeroVerifier.sol";
-import {EvenNumber} from "../src/EvenNumber.sol";
+import {GeoLocationProofVerifier} from "../src/GeoLocationProofVerifier.sol";
 import {ImageID} from "../src/ImageID.sol";
 
-contract EvenNumberTest is RiscZeroCheats, Test {
-    EvenNumber public evenNumber;
+contract GeoLocationProofVerifierTest is RiscZeroCheats, Test {
+    GeoLocationProofVerifier public geoLocationProofVerifier;
     RiscZeroMockVerifier public verifier;
 
     function setUp() public {
         verifier = new RiscZeroMockVerifier(0);
-        evenNumber = new EvenNumber(verifier);
-        assertEq(evenNumber.get(), 0);
+        geoLocationProofVerifier = new GeoLocationProofVerifier(verifier);
+        //assertEq(geoLocationProofVerifier.get(), 0);
     }
 
-    function test_SetEven() public {
+    function test_verifyGeoLocationProof() public {
         uint256 number = 12345678;
-        RiscZeroReceipt memory receipt = verifier.mockProve(ImageID.IS_EVEN_ID, sha256(abi.encode(number)));
+        RiscZeroReceipt memory receipt = verifier.mockProve(ImageID.GEO_LOCATION_PROVER_ID, sha256(abi.encode(true)));
 
-        evenNumber.set(number, receipt.seal);
-        assertEq(evenNumber.get(), number);
-    }
-
-    function test_SetZero() public {
-        uint256 number = 0;
-        RiscZeroReceipt memory receipt = verifier.mockProve(ImageID.IS_EVEN_ID, sha256(abi.encode(number)));
-
-        evenNumber.set(number, receipt.seal);
-        assertEq(evenNumber.get(), number);
+        bool isValidProof = geoLocationProofVerifier.verifyGeoLocationProof(receipt.seal, true);
+        assertEq(isValidProof, true);
     }
 
     // Try using a proof for the evenness of 4 to set 1 on the contract.
     function test_RejectInvalidProof() public {
-        RiscZeroReceipt memory receipt = verifier.mockProve(ImageID.IS_EVEN_ID, sha256(abi.encode(4)));
+        RiscZeroReceipt memory receipt = verifier.mockProve(ImageID.GEO_LOCATION_PROVER_ID, sha256(abi.encode(true)));
 
         vm.expectRevert(VerificationFailed.selector);
-        evenNumber.set(1, receipt.seal);
+        bool isValidProof = geoLocationProofVerifier.verifyGeoLocationProof(receipt.seal, false);
+        assertEq(isValidProof, false);
     }
 }

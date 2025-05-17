@@ -1,5 +1,21 @@
-# Base Batch
+# ZK Geo Location Prover
 
+## Technical Stack
+
+
+<br>
+
+## Overview
+
+The problem to be solved by this project is the provacy-preserving related problem that an exact geo location of a DePIN Device (i.e. Helium, XNET) can be shared.
+
+This ZK Geo Location Prover protocol can prove and verify whether or not a DePIN Device is working in legal region without revealing their exact locations (GPS coordinates) - thanks to ZKP (Zero-Knowledge Proof) produced via Boundless-powered by RISC Zero's zkVM.
+
+In other words, this protocol can attest a "proof of location" without revealing a DePIN Device's exact locations.
+
+
+
+<br>
 
 ### Running the test of the guest program
 - 1/ Run the ZK guest program (`main()` in the `./guests/tests/runningGuestProgram_location-prover-test.sh`):
@@ -37,7 +53,7 @@ sh ./contracts/scripts/runningScript_Deploy.sh
 # Boundless Foundry Template
 
 This template serves as a starting point for developing an application with verifiable compute provided by [Boundless][boundless-homepage].
-It is built around a simple smart contract, `EvenNumber`, and its associated RISC Zero guest, `is-even`.
+It is built around a simple smart contract, `GeoLocationProofVerifier`, and its associated RISC Zero guest, `is-even`.
 
 ## Build
 
@@ -89,37 +105,37 @@ The example app reads from this `.env` file automatically.
 
 ### Deploy the contract
 
-To deploy the `EvenNumber` contract run:
+To deploy the `GeoLocationProofVerifier` contract run:
 
 ```bash
 . ./.env # load the environment variables from the .env file for deployment
 forge script contracts/scripts/Deploy.s.sol --rpc-url ${RPC_URL:?} --broadcast -vv
 ```
 
-Save the `EvenNumber` contract address to an env variable:
+Save the `GeoLocationProofVerifier` contract address to an env variable:
 
 <!-- TODO: Update me -->
 
 ```bash
-# First contract deployed and top of logs is EvenNumber
-export EVEN_NUMBER_ADDRESS=#COPY EVEN NUMBER ADDRESS FROM DEPLOY LOGS
+# First contract deployed and top of logs is GeoLocationProofVerifier
+export GEO_LOCATION_PROOF_VERIFIER_ADDRESS=#COPY EVEN NUMBER ADDRESS FROM DEPLOY LOGS
 ```
 
 > You can also use the following command to set the contract address if you have [`jq`][jq] installed:
 >
 > ```bash
-> export EVEN_NUMBER_ADDRESS=$(jq -re '.transactions[] | select(.contractName == "EvenNumber") | .contractAddress' ./broadcast/Deploy.s.sol/11155111/run-latest.json)
+> export GEO_LOCATION_PROOF_VERIFIER_ADDRESS=$(jq -re '.transactions[] | select(.contractName == "GeoLocationProofVerifier") | .contractAddress' ./broadcast/Deploy.s.sol/11155111/run-latest.json)
 > ```
 
 ### Run the example
 
-The [example app](apps/src/main.rs) will upload your zkVM guest to IPFS, submit a request to the market for a proof that "4" is an even number, wait for the request to be fulfilled, and then submit that proof to the EvenNumber contract, setting the value to "4".
+The [example app](apps/src/main.rs) will upload your zkVM guest to IPFS, submit a request to the market for a proof that "4" is an even number, wait for the request to be fulfilled, and then submit that proof to the GeoLocationProofVerifier contract, setting the value to "4".
 
 
 To run the example:
 
 ```bash
-RUST_LOG=info cargo run --bin app -- --even-number-address ${EVEN_NUMBER_ADDRESS:?} --number 4
+RUST_LOG=info cargo run --bin app -- --even-number-address ${GEO_LOCATION_PROOF_VERIFIER_ADDRESS:?} --number 4
 ```
 
 [jq]: https://jqlang.github.io/jq/
