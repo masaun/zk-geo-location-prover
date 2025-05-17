@@ -15,6 +15,12 @@ In other words, this protocol can attest a "proof of location" without revealing
 
 <br>
 
+## DEMO Video
+
+- DEMO Video: https://vimeo.com/1085187248/bdc86dc443
+
+<br>
+
 ## Deployed-addresses on [`BASE Sepolia`](https://sepolia.basescan.org) testnet
 
 | Contract Name | Descripttion | Deployed-contract addresses on BASE Sepolia Testnet | Contract Source Code Verified |
