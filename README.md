@@ -38,7 +38,7 @@ sh ./apps/runningApp_main.sh
 - 1/ Deploy the `xxx` contract on [`BASE`]() testnet:
 ```bash
 sh ./contracts/scripts/runningScript_Deploy.sh
-
+```
 
 <br>
 
