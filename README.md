@@ -2,7 +2,7 @@
 
 ## Tech stack
 
-- ZK program (`ZK circuit`): Implemented in [`zkVM / Boundless`](https://beboundless.xyz/) powered by [RISC Zero](https://risczero.com/) (Written in Rust)
+- ZK program (`ZK circuit`): Implemented in [`Boundless`](https://beboundless.xyz/) powered by [RISC Zero](https://risczero.com/)'s zkVM (Written in Rust)
 - Smart Contract: Written in Solidity (Framework: Foundry)
 - Blockchain: [`Base Sepolia`](https://sepolia.basescan.org/) testnet
 
