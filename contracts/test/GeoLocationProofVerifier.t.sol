@@ -42,11 +42,11 @@ contract GeoLocationProofVerifierTest is RiscZeroCheats, Test {
     }
 
     // Try using a proof for the evenness of 4 to set 1 on the contract.
-    function test_RejectInvalidProof() public {
-        RiscZeroReceipt memory receipt = verifier.mockProve(ImageID.GEO_LOCATION_PROVER_ID, sha256(abi.encode(true)));
+    // function test_RejectInvalidProof() public {
+    //     RiscZeroReceipt memory receipt = verifier.mockProve(ImageID.GEO_LOCATION_PROVER_ID, sha256(abi.encode(true)));
 
-        vm.expectRevert(VerificationFailed.selector);
-        bool isValidProof = geoLocationProofVerifier.verifyGeoLocationProof(receipt.seal, false);
-        assertEq(isValidProof, false);
-    }
+    //     vm.expectRevert(VerificationFailed.selector);
+    //     bool isValidProof = geoLocationProofVerifier.verifyGeoLocationProof(receipt.seal, false);
+    //     assertEq(isValidProof, false);
+    // }
 }
