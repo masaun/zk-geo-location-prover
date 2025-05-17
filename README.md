@@ -33,7 +33,7 @@ sh ./apps/runningApp_main.sh
 
 <br>
 
-## Run the test of the smart contract (`./contracts/test/GeoLocationProofVerifier.t.sol`)
+### Run the test of the smart contract
 - Run the test of the smart contract (`./contracts/test/GeoLocationProofVerifier.t.sol`):
 ```bash
 sh ./contracts/test/runningTest_GeoLocationProofVerifier.sh
@@ -43,7 +43,7 @@ sh ./contracts/test/runningTest_GeoLocationProofVerifier.sh
 <br>
 
 ### Deploy the smart contracts
-- 1/ Deploy the `xxx` contract on [`BASE`]() testnet:
+- 1/ Deploy the `GeoLocationProofVerifier` contract on [`BASE`]() testnet:
 ```bash
 sh ./contracts/scripts/runningScript_Deploy.sh
 ```
