@@ -48,8 +48,8 @@ contract GeoLocationProofVerifier {
      */
     function verifyGeoLocationProof(bytes calldata proof, bool isOutsideOfAcceptableLocation) public view returns (bool _isValidProof) {
         bytes memory publicInputs = abi.encode(isOutsideOfAcceptableLocation);
-        verifier.verify(proof, imageId, sha256(abi.encode(publicInputs)));
-        //bool isValidProof = verifier.verify(proof, imageId, sha256(abi.encode(publicInputs)));
+        verifier.verify(proof, imageId, sha256(publicInputs));
+        //bool isValidProof = verifier.verify(proof, imageId, sha256(publicInputs));
         bool isValidProof = true;
         return isValidProof;
     }

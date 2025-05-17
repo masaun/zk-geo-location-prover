@@ -34,8 +34,9 @@ contract GeoLocationProofVerifierTest is RiscZeroCheats, Test {
     }
 
     function test_verifyGeoLocationProof() public {
-        uint256 number = 12345678;
-        RiscZeroReceipt memory receipt = verifier.mockProve(ImageID.GEO_LOCATION_PROVER_ID, sha256(abi.encode(true)));
+        bool isOutsideOfAcceptableLocation = true;
+        bytes memory publicInputs = abi.encode(isOutsideOfAcceptableLocation);
+        RiscZeroReceipt memory receipt = verifier.mockProve(ImageID.GEO_LOCATION_PROVER_ID, sha256(publicInputs));
 
         bool isValidProof = geoLocationProofVerifier.verifyGeoLocationProof(receipt.seal, true);
         assertEq(isValidProof, true);
