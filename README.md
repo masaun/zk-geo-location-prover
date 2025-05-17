@@ -33,7 +33,7 @@ sh ./apps/runningApp_main.sh
 
 <br>
 
-## Run the test of the smart contract (`./contracts/test/GeoLocationProofVerifier.t.sol`)
+### Run the test of the smart contract
 - Run the test of the smart contract (`./contracts/test/GeoLocationProofVerifier.t.sol`):
 ```bash
 sh ./contracts/test/runningTest_GeoLocationProofVerifier.sh
