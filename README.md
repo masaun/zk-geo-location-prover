@@ -43,7 +43,7 @@ sh ./contracts/test/runningTest_GeoLocationProofVerifier.sh
 <br>
 
 ### Deploy the smart contracts
-- 1/ Deploy the `xxx` contract on [`BASE`]() testnet:
+- 1/ Deploy the `GeoLocationProofVerifier` contract on [`BASE`]() testnet:
 ```bash
 sh ./contracts/scripts/runningScript_Deploy.sh
 ```
