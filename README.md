@@ -18,7 +18,7 @@ In other words, this protocol can attest a "proof of location" without revealing
 <br>
 
 ### Running the test of the guest program
-- 1/ Run the ZK guest program (`main()` in the `./guests/tests/runningGuestProgram_location-prover-test.sh`):
+- Run the ZK guest program (`main()` in the `./guests/tests/runningGuestProgram_location-prover-test.sh`):
 ```bash
 sh ./guests/tests/runningGuestProgramTest_geo-location-prover-test.sh
 ```
@@ -26,13 +26,7 @@ sh ./guests/tests/runningGuestProgramTest_geo-location-prover-test.sh
 <br>
 
 ### Running the (backend) App
-- 1/ Add the input data for the ZK guest program (`main()` in the `./guests/geo-location-prover/src/main.rs`):
-```bash
-```
-
-<br>
-
-- 2/ Run the `./apps/src/main.rs`:
+- Run the `./apps/src/main.rs`:
 ```bash
 sh ./apps/runningApp_main.sh
 ```

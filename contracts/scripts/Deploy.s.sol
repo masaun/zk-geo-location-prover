@@ -20,15 +20,18 @@ import {GeoLocationProofVerifier} from "../src/GeoLocationProofVerifier.sol";
 
 contract Deploy is Script {
     function run() external {
+        vm.createSelectFork("base_testnet");
+
         // load ENV variables first
-        uint256 key = vm.envUint("WALLET_PRIVATE_KEY");
-        address verifierAddress = vm.envAddress("VERIFIER_ROUTER_ADDRESS");
-        vm.startBroadcast(key);
+        uint256 deployerPrivateKey = vm.envUint("BASE_TESTNET_PRIVATE_KEY");
+        vm.startBroadcast(deployerPrivateKey);
+
+        address verifierAddress = vm.envAddress("BASE_TESTNET_VERIFIER_ROUTER_ADDRESS");
 
         IRiscZeroVerifier verifier = IRiscZeroVerifier(verifierAddress);
         GeoLocationProofVerifier geoLocationProofVerifier = new GeoLocationProofVerifier(verifier);
         address geoLocationProofVerifierAddress = address(geoLocationProofVerifier);
-        console2.log("Deployed GeoLocationProofVerifier to", geoLocationProofVerifierAddress);
+        console2.log("The deployed GeoLocationProofVerifier contract on BASE testnet: ", geoLocationProofVerifierAddress);
 
         vm.stopBroadcast();
     }
