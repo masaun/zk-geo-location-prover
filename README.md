@@ -1,17 +1,27 @@
 # ZK Geo Location Prover
 
-## Technical Stack
+## Tech stack
+
+- ZK program (`ZK circuit`): Implemented in [`zkVM / Boundless`](https://beboundless.xyz/) powered by [RISC Zero](https://risczero.com/) (Written in Rust)
+- Smart Contract: Written in Solidity (Framework: Foundry)
+- Blockchain: [`Base Sepolia`](https://sepolia.basescan.org/) testnet
 
 
 <br>
 
 ## Overview
 
-The problem to be solved by this project is the provacy-preserving related problem that an exact geo location of a DePIN Device (i.e. Helium, XNET) can be shared.
+This is the ZK Geo Location Prover protocol, which solve the provacy-preserving related problem that an exact geo location of a DePIN device can be shared (revealed) among DePIN network (i.e. Helium, XNET).
 
-This ZK Geo Location Prover protocol can prove and verify whether or not a DePIN Device is working in legal region without revealing their exact locations (GPS coordinates) - thanks to ZKP (Zero-Knowledge Proof) produced via Boundless-powered by RISC Zero's zkVM.
+The ZK Geo Location Prover protocol can prove/generate a **`ZK Proof (Zero-Knowledge Proof) of location` of DePIN device** and verify whether or not a DePIN device is working in legal region without revealing their exact locations (GPS coordinates) - thanks to ZKP (Zero-Knowledge Proof) produced via Boundless-powered by RISC Zero's zkVM.
 
-In other words, this protocol can attest a "proof of location" without revealing a DePIN Device's exact locations.
+The ZK Geo Location Prover protocol is consist of the two parts:
+- ZK guest program (`./guests/geo-location-prover/main.rs`)
+- Smart Contract Verifier (`./contracts/src/GeoLocationProofVerifier.sol`)
+
+ZK guest program would prove/generate a **`ZK Proof of location` of DePIN device**.  
+(In other words, this protocol can attest a `"proof of location"` without revealing a DePIN device's exact locations.)
+
 
 <br>
 
@@ -32,7 +42,34 @@ In other words, this protocol can attest a "proof of location" without revealing
 
 ## Installtion
 
-### Run the test of the guest program
+### Install the cargo packages
+
+- 1/ Install the Cargo packages
+```bash
+cargo build
+```
+
+- 2/ Within the `contracts/test/Elf.sol`, the **path** (`SMART_METER_PATH`) should be fixed like this:
+```solidity
+library Elf {
+    string public constant GEO_LOCATION_PROVER_PATH =
+        "../target/riscv-guest/guests/geo-location-prover/riscv32im-risc0-zkvm-elf/release/geo-location-prover.bin";
+}
+```
+
+<br>
+
+### Compile the smart contracts
+
+- Compile the smart contracts
+```bash
+forge build
+```
+
+<br>
+
+
+### Run the test of the ZK guest program
 - Run the ZK guest program (`main()` in the `./guests/tests/runningGuestProgram_location-prover-test.sh`):
 ```bash
 sh ./guests/tests/runningGuestProgramTest_geo-location-prover-test.sh
@@ -40,7 +77,26 @@ sh ./guests/tests/runningGuestProgramTest_geo-location-prover-test.sh
 
 <br>
 
-### Run the (backend) App
+### Set up your environment
+
+Add your Sepolia testnet wallet private key to an `env` file:
+
+```bash
+WALLET_PRIVATE_KEY="YOUR_WALLET_PRIVATE_KEY"
+```
+
+To allow provers to access your zkVM guest binary, it must be uploaded to a public URL. For this example we will upload to IPFS using Pinata. Pinata has a free tier with plenty of quota to get started. Sign up at [[Pinata](https://pinata.cloud/)](https://pinata.cloud/), generate an API key, and set the JWT as an environment variable:
+
+```bash
+PINATA_JWT="YOUR_PINATA_JWT"
+```
+
+A [`.env`](./.env) file is provided with the Boundless contract deployment information for Sepolia.
+The example app reads from this `.env` file automatically.
+
+<br>
+
+### Run the (backend) app
 - Run the `./apps/src/main.rs`:
 ```bash
 sh ./apps/runningApp_main.sh
@@ -54,107 +110,26 @@ sh ./apps/runningApp_main.sh
 sh ./contracts/test/runningTest_GeoLocationProofVerifier.sh
 ```
 
-
 <br>
 
 ### Deploy the smart contracts
-- 1/ Deploy the `GeoLocationProofVerifier` contract on [`BASE`]() testnet:
+- [NOTE]: The `GeoLocationProofVerifier` contract has [already been deployed on BASE testnet](https://github.com/masaun/zk-geo-location-prover?tab=readme-ov-file#deployed-addresses-on-base-sepolia-testnet). Hence, You can use it and therefore you basically do not need to deploy via the following command:
+- Deploy the `GeoLocationProofVerifier` contract on [`BASE` testnet](https://sepolia.basescan.org):
 ```bash
 sh ./contracts/scripts/runningScript_Deploy.sh
 ```
 
 <br>
 
-<hr>
+## References and Resources
 
-# Boundless Foundry Template
-
-This template serves as a starting point for developing an application with verifiable compute provided by [Boundless][boundless-homepage].
-It is built around a simple smart contract, `GeoLocationProofVerifier`, and its associated RISC Zero guest, `is-even`.
-
-## Build
-
-To build the example run:
-
-```bash
-# Install RISC Zero toolchain if not already installed
-curl -L https://risczero.com/install | bash
-rzup install
-
-# Populate the `./lib` submodule dependencies
-git submodule update --init --recursive
-cargo build
-forge build
-```
-
-## Test
-
-Test the Solidity smart contracts with:
-
-```bash
-forge test -vvv
-```
-
-Test the Rust code including the guest with:
-
-```bash
-cargo test
-```
-
-## Deploy to Testnet
-
-### Set up your environment
-
-Export your Sepolia testnet wallet private key as an environment variable:
-
-```bash
-export WALLET_PRIVATE_KEY="YOUR_WALLET_PRIVATE_KEY"
-```
-
-To allow provers to access your zkVM guest binary, it must be uploaded to a public URL. For this example we will upload to IPFS using Pinata. Pinata has a free tier with plenty of quota to get started. Sign up at [[Pinata](https://pinata.cloud/)](https://pinata.cloud/), generate an API key, and set the JWT as an environment variable:
-
-```bash
-export PINATA_JWT="YOUR_PINATA_JWT"
-```
-
-A [`.env`](./.env) file is provided with the Boundless contract deployment information for Sepolia.
-The example app reads from this `.env` file automatically.
-
-### Deploy the contract
-
-To deploy the `GeoLocationProofVerifier` contract run:
-
-```bash
-. ./.env # load the environment variables from the .env file for deployment
-forge script contracts/scripts/Deploy.s.sol --rpc-url ${RPC_URL:?} --broadcast -vv
-```
-
-Save the `GeoLocationProofVerifier` contract address to an env variable:
-
-<!-- TODO: Update me -->
-
-```bash
-# First contract deployed and top of logs is GeoLocationProofVerifier
-export GEO_LOCATION_PROOF_VERIFIER_ADDRESS=#COPY EVEN NUMBER ADDRESS FROM DEPLOY LOGS
-```
-
-> You can also use the following command to set the contract address if you have [`jq`][jq] installed:
->
-> ```bash
-> export GEO_LOCATION_PROOF_VERIFIER_ADDRESS=$(jq -re '.transactions[] | select(.contractName == "GeoLocationProofVerifier") | .contractAddress' ./broadcast/Deploy.s.sol/11155111/run-latest.json)
-> ```
-
-### Run the example
-
-The [example app](apps/src/main.rs) will upload your zkVM guest to IPFS, submit a request to the market for a proof that "4" is an even number, wait for the request to be fulfilled, and then submit that proof to the GeoLocationProofVerifier contract, setting the value to "4".
+- RISC Zero: https://risczero.com/  
+  - Doc (zkVM / Bonsai): https://dev.risczero.com/api  
+  - Boundless: https://beboundless.xyz/  
+    - Boundless Doc: https://docs.beboundless.xyz/introduction/why-boundless
+    - Deployed contract addresses:
+      - Deployed Verifier contract addresses: https://docs.beboundless.xyz/developers/smart-contracts/verifier-contracts#base-sepolia-84532
 
 
-To run the example:
-
-```bash
-RUST_LOG=info cargo run --bin app -- --even-number-address ${GEO_LOCATION_PROOF_VERIFIER_ADDRESS:?} --number 4
-```
-
-[jq]: https://jqlang.github.io/jq/
-[boundless-homepage]: https://beboundless.xyz
-[sepolia]: https://ethereum.org/en/developers/docs/networks/#sepolia
+- BASE Sepolia testnet: 
+  - Block Explorer: https://sepolia.basescan.org/
