@@ -1,5 +1,21 @@
-# Base Batch
+# ZK Geo Location Prover
 
+## Technical Stack
+
+
+<br>
+
+## Overview
+
+The problem to be solved by this project is the provacy-preserving related problem that an exact geo location of a DePIN Device (i.e. Helium, XNET) can be shared.
+
+This ZK Geo Location Prover protocol can prove and verify whether or not a DePIN Device is working in legal region without revealing their exact locations (GPS coordinates) - thanks to ZKP (Zero-Knowledge Proof) produced via Boundless-powered by RISC Zero's zkVM.
+
+In other words, this protocol can attest a "proof of location" without revealing a DePIN Device's exact locations.
+
+
+
+<br>
 
 ### Running the test of the guest program
 - 1/ Run the ZK guest program (`main()` in the `./guests/tests/runningGuestProgram_location-prover-test.sh`):
